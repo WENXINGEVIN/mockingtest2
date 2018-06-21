@@ -11,15 +11,15 @@ Need to integrate with webpack to organize the resource.
     - [java]
 2. Clone this repository into your local machine using the terminal (mac) or Gitbash (PC) `> git clone CLONEURL`
 3. CD to the folder `cd FOLDERNAME`
-* Run `./mvnw spring-boot:run` to install everything
+* Run `./mvnw spring-boot:run` to install everything (mvnw.bat for Windows users)
 
 
-## Possible Error 
+## Possible Error Solution
 
 * if mention about Java, check JAVA_HOME path, and version, java10 is not supported. [how to change java version](https://stackoverflow.com/questions/21964709/how-to-set-or-change-the-default-java-jdk-version-on-os-x)
-* ExpressJS
-* Bootrap & css & HTML5
-* Webpack: configuration file and dependencies management
+* if mention about port being used, open process manager to kill java process and try again. 
+* if everything fails, try mvn clean and build again.
+
 
 ## Code commit and contribution
 
