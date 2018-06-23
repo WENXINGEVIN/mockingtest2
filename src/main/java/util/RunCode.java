@@ -1,16 +1,13 @@
-package com.webbertech.web.util;
-
+package util;
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
 public class RunCode {
 	static CodeResult executeCode(SourceCode sourceCode)  {
-
 		String s = null;
 		
         try {
-
             // reconstruct source code to ".java" file
             File javaFile = new File(sourceCode.getTitle() + ".java");
             FileWriter fileWriter = new FileWriter(javaFile);
@@ -19,7 +16,22 @@ public class RunCode {
 
             // using the Runtime exec method to run :
             Runtime runtime = Runtime.getRuntime();
+            
+            /*
+             * Javac does not guarantee .class file will be generated as
+             * our UI code editor will not lint java syntax instantly,
+             * so if syntax error or runtime exception happens, we should reap the exception
+             * and save it to the CodeResult and return.
+             * */
             Process compile = runtime.exec("javac " + javaFile.getName());
+            
+            System.out.println(sourceCode.getTitle());
+            // If the filename.class already exists, we need to delete it.
+            /*
+             * String tempdir = system_temp_dir();
+             * String userTempDir = tmepdir<>JavaUUID<>"Uid"; //path
+             * everything is created under this dir.
+             * */
             Process run = runtime.exec("java " + sourceCode.getTitle());
 
             PrintWriter printWriter = new PrintWriter("log.txt");
@@ -59,9 +71,7 @@ public class RunCode {
             e.printStackTrace();
             System.exit(-1);
         }
-        
         return null;
-        
 	}
 
     public static String readFileAsString(String fileName) throws Exception {
@@ -74,7 +84,7 @@ public class RunCode {
 		// Test above code here.
         SourceCode sourceCode = null;
         try {
-            String fileName = "E:\\mockingtest\\app\\HelloWorld.txt";
+            String fileName = "C:\\Users\\linfeng\\workspace\\Test\\src\\util\\HelloWorld.txt";
             String codeInString = readFileAsString(fileName);
             sourceCode = new SourceCode(Paths.get(fileName).getFileName().toString().replaceFirst("[.][^.]+$", ""), codeInString);
             executeCode(sourceCode);
@@ -82,8 +92,4 @@ public class RunCode {
             e.printStackTrace();
         }
 	}
-
 }
-
-
-
