@@ -50,6 +50,26 @@ public class Manager {
 		this.password = PASSWORD_ENCODER.encode(password);
 	}
 
+	public String getName() {
+		return name;
+	}
+
+	public String[] getRoles() {
+		return roles;
+	}
+
+	public void setRoles(String[] roles) {
+		this.roles = roles;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public String getPassword() {
+		return password;
+	}
+
 	protected Manager() {}
 
 	public Manager(String name, String password, String... roles) {
