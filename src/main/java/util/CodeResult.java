@@ -1,4 +1,6 @@
-package com.webbertech.web.util;
+package util;
+
+
 
 public class CodeResult {
 	private String stdout;

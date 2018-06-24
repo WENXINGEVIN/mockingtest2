@@ -1,4 +1,4 @@
-package com.webbertech.web.util;
+package util;
 
 public class SourceCode {
 	private String title;
