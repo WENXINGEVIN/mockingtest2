@@ -7,6 +7,11 @@ module.exports = {
     devtool: 'sourcemaps',
     cache: true,
     debug: true,
+    resolve: {
+        alias: {
+            'stompjs': node_dir + '/stompjs/lib/stomp.js',
+        }
+    },
     output: {
         path: __dirname,
         filename: './src/main/resources/static/built/bundle.js'
@@ -21,7 +26,6 @@ module.exports = {
                     cacheDirectory: true,
                     presets: ['es2015', 'react']
                 }
-
             }
         ]
     }
