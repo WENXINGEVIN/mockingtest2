@@ -4,7 +4,7 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 
 public class RunCode {
-	static CodeResult executeCode(SourceCode sourceCode)  {
+	public  static CodeResult executeCode(SourceCode sourceCode)  {
 		String s = null;
 		
         try {
@@ -74,22 +74,14 @@ public class RunCode {
         return null;
 	}
 
-    public static String readFileAsString(String fileName) throws Exception {
+    public static  String readFileAsString(String fileName) throws Exception {
         String data = "";
         data = new String(Files.readAllBytes(Paths.get(fileName)));
         return data;
     }
 
+    /*
 	public static void main(String[] args) throws FileNotFoundException {
-		// Test above code here.
-        SourceCode sourceCode = null;
-        try {
-            String fileName = "C:\\Users\\linfeng\\workspace\\Test\\src\\util\\HelloWorld.txt";
-            String codeInString = readFileAsString(fileName);
-            sourceCode = new SourceCode(Paths.get(fileName).getFileName().toString().replaceFirst("[.][^.]+$", ""), codeInString);
-            executeCode(sourceCode);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-	}
+	
+	}*/
 }
