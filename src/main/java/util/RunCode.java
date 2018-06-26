@@ -5,32 +5,20 @@ import java.nio.file.Paths;
 
 public class RunCode {
 	private Runtime runtime;
+	private String userDirectory;
 	
 	public RunCode() {
         runtime = Runtime.getRuntime();   
-	}
-	// Reconstruct source code to ".java" file, and return absolute file path
-	private String generateSourceFile(SourceCode sourceCode) throws IOException {
-		String usrDir = "";
-		try {
-			usrDir = RunCode.createTempDirectory().getAbsolutePath();
-		} catch (IOException e1) {
+        try {
+			userDirectory = createTempDirectory();
+		} catch (IOException e) {
 			// TODO Auto-generated catch block
-			e1.printStackTrace();
+			e.printStackTrace();
 		}
-		
-		String fileFullPath = usrDir + sourceCode.getTitle() + ".java";
-        File javaFile = new File(fileFullPath);
-        FileWriter fileWriter;
-		fileWriter = new FileWriter(javaFile);
-		fileWriter.write(sourceCode.getCode());
-     	fileWriter.close();
-		
-		return fileFullPath;
 	}
 	
 	// The following code might contain bug, it is not tested
-	private static File createTempDirectory() throws IOException {
+	private String createTempDirectory() throws IOException {
 		    final File temp;
 		    temp = File.createTempFile("temp", Long.toString(System.nanoTime()));
 		    if(!(temp.delete())) {
@@ -39,12 +27,31 @@ public class RunCode {
 		    if(!(temp.mkdir())) {
 		        throw new IOException("Could not create temp directory: " + temp.getAbsolutePath());
 		    }
-		    return (temp);
+		    return (temp.getAbsolutePath());
+	}
+	
+	// Reconstruct source code to ".java" file, and return absolute file path
+	private String generateSourceFile(SourceCode sourceCode) throws IOException {
+		String fileFullPath = userDirectory + sourceCode.getTitle() + ".java";
+        File javaFile = new File(fileFullPath);
+        FileWriter fileWriter;
+		fileWriter = new FileWriter(javaFile);
+		fileWriter.write(sourceCode.getCode());
+     	fileWriter.close();
+		
+		return fileFullPath;
+	}
+		
+	private String getBinaryFile(String fullFilePath) {
+		String binaryFile = "";
+		if (fullFilePath.contains(".")) {
+			binaryFile = fullFilePath.split(".")[0]+".class";
 		}
+		return binaryFile;
+	}
 	
-	
-	
-	public void compileSourceCode(String fullFilePath, CodeResult result) throws IOException {
+	public void compileSourceCode(String fullFilePath, CodeResult result) 
+			throws IOException {
         /*
          * Javac does not guarantee .class file will be generated as
          * our UI code editor will not lint java syntax instantly,
@@ -53,6 +60,10 @@ public class RunCode {
          * */
 	    // using the Runtime exec method to run :
 
+		if ( true /*getBinaryFile() exists */) {
+			//TODO delete class file if it exists
+		}
+		// File 
         Process compile = runtime.exec("javac " + fullFilePath);
         
         /* TODO set result????
@@ -67,15 +78,10 @@ public class RunCode {
 	}
 	
 	public void runSourceCode(String fullFilePath, CodeResult result) {
-		String binaryFile = "";
-		if (fullFilePath.contains(".")) {
-			binaryFile = fullFilePath.split(".")[0]+".class";
-		}
-		
 		String line;
 		try {
 	        // Run binary file in full file path
-			Process run = runtime.exec("java " + binaryFile);
+			Process run = runtime.exec("java " + getBinaryFile(fullFilePath));
 	        PrintWriter printWriter = new PrintWriter("log.txt");
 	        BufferedReader stdInput = new BufferedReader(new
 	        InputStreamReader(run.getInputStream()));
