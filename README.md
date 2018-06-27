@@ -62,3 +62,9 @@ Please do not commit node_modules.
  
 ## Merge from develop to master branch
 Master branch is always the most trustable branch.
+
+## Troubleshooting
+
+* If you have any issues on not able to install mvn package, please 
+  remove the node_modules dir in your project root.
+* cd ~/.m2, and remove everything under it.
