@@ -13,6 +13,29 @@ Need to integrate with webpack to organize the resource.
 3. CD to the folder `cd FOLDERNAME`
 * Run `./mvnw spring-boot:run` to install everything (mvnw.bat for Windows users)
 
+4. If you see error in the above step to start the web server in development mode. Try to do the following,
+
+* In application.properties, change your database password.
+* Create a database by `create database notes_app;`
+<pre>
+xiaofeng@tvlx:~/projects/mockingtest2$ mysql -uroot -p
+Enter password: 
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 14
+Server version: 5.7.22-0ubuntu0.16.04.1 (Ubuntu)
+
+Copyright (c) 2000, 2018, Oracle and/or its affiliates. All rights reserved.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+mysql> create database notes_app;
+Query OK, 1 row affected (0.00 sec)
+</pre>
+
 
 ## Possible Error Solution
 
