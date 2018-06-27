@@ -26,19 +26,19 @@ Need to integrate with webpack to organize the resource.
 ### Create your branch off develop branch
 
 1/ git checkout develop <br>
+
 2/ git pull or git fetch origin -p (sync origin/develop and remove your local branch that was deleted on remote) <br>
+
 3/ Create your branch with -b <br>
 git checkout -b xiaofeng/add-img-slider <br>
 
-For example, 
 
-E:\extremehunter.us\extremehunter.us>git add README.md
+ git add README.md
 
-E:\extremehunter.us\extremehunter.us>git add app/routes/index.js
+ git add app/routes/index.js
 
-E:\extremehunter.us\extremehunter.us>git status
+ git status
 
-On branch xiaofeng/show-git-cmd
 
 Changes to be committed:
   (use "git reset HEAD <file>..." to unstage)
@@ -53,7 +53,12 @@ Untracked files:
 
 Please do not commit node_modules.
 
+
 ## Send pull request to develop branch
 
+* Always make your PR to develop branch
+* Do not commit files in node_modules
+* Do not commit hidden files .* files
+ 
 ## Merge from develop to master branch
 Master branch is always the most trustable branch.
