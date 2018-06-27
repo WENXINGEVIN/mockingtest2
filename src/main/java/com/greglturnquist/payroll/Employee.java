@@ -15,11 +15,7 @@
  */
 package com.greglturnquist.payroll;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
-import javax.persistence.Version;
+import javax.persistence.*;
 
 import lombok.Data;
 
@@ -31,6 +27,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 // tag::code[]
 @Data
 @Entity
+@Table(name = "employee")
 public class Employee {
 
 	public Manager getManager() {

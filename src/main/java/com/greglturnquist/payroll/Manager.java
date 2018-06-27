@@ -15,9 +15,8 @@
  */
 package com.greglturnquist.payroll;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+
+import javax.persistence.*;
 
 import lombok.Data;
 import lombok.ToString;
@@ -33,6 +32,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 // tag::code[]
 @Data
 @ToString(exclude = "password")
+@Table(name = "manager")
 @Entity
 public class Manager {
 
