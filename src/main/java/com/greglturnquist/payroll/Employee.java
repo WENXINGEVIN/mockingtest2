@@ -17,9 +17,15 @@ package com.greglturnquist.payroll;
 
 import javax.persistence.*;
 
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+
 import lombok.Data;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
+import java.util.Date;
 
 /**
  * @author Greg Turnquist
@@ -28,6 +34,9 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 @Data
 @Entity
 @Table(name = "employee")
+@EntityListeners(AuditingEntityListener.class)
+@JsonIgnoreProperties(value = {"createdAt", "updatedAt"}, 
+allowGetters = true)
 public class Employee {
 
 	public Manager getManager() {
@@ -82,18 +91,111 @@ public class Employee {
 	private String firstName;
 	private String lastName;
 	private String description;
-
+	private String password;
+	private int uid;
+	private String email;
+	private String security_q1;
+	private String security_q2;
+	private String security_a1;
+	private String security_a2;
+	
+	
+    private Date created_at;
+    
+    private Date updated_at;
+    
+    @PrePersist
+    protected void onCreate() {
+      created_at = new Date();
+    }
+    
+    @PreUpdate
+    protected void onUpdate() {
+      updated_at = new Date();
+    }
+  }
 	private @Version @JsonIgnore Long version;
 
 	private @ManyToOne Manager manager;
 
 	private Employee() {}
 
-	public Employee(String firstName, String lastName, String description, Manager manager) {
+	public Employee(String firstName, String lastName, String description, Manager manager, String password, int uid, String email, String security_q1, String security_q2, String security_a1, String security_a2) {
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.description = description;
 		this.manager = manager;
+		this.setPassword(password);
+		this.uid=uid;
+		this.email=email;
+		this.security_q1=security_q1;
+		this.security_q2=security_q2;
+		this.security_a1=security_a1;
+		this.security_a2=security_a2;
+	}
+
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
+	}
+
+	public int getUid() {
+		return uid;
+	}
+
+	public void setUid(int uid) {
+		this.uid = uid;
+	}
+
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
+	public String getSecurity_q1() {
+		return security_q1;
+	}
+
+	public void setSecurity_q1(String security_q1) {
+		this.security_q1 = security_q1;
+	}
+
+	public String getSecurity_q2() {
+		return security_q2;
+	}
+
+	public void setSecurity_q2(String security_q2) {
+		this.security_q2 = security_q2;
+	}
+
+	public String getSecurity_a1() {
+		return security_a1;
+	}
+
+	public void setSecurity_a1(String security_a1) {
+		this.security_a1 = security_a1;
+	}
+
+	public String getSecurity_a2() {
+		return security_a2;
+	}
+
+	public void setSecurity_a2(String security_a2) {
+		this.security_a2 = security_a2;
+	}
+
+	public Date getCreated_at() {
+		return created_at;
+	}
+
+	public void setCreated_at(Date created_at) {
+		this.created_at = created_at;
 	}
 }
 // end::code[]
