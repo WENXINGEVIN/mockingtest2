@@ -24,6 +24,7 @@ import org.springframework.stereotype.Component;
 
 import com.mocking.data.EmployeeRepository;
 import com.mocking.data.ManagerRepository;
+import com.mocking.model.Employee;
 import com.mocking.model.Manager;
 
 /**
@@ -46,13 +47,21 @@ public class DatabaseLoader implements CommandLineRunner {
 
 	@Override
 	public void run(String... strings) throws Exception {
-
-		Manager greg = this.managers.save(new Manager("admin", "admin",
+		Manager admin = null;
+		if (this.managers.findByName("admin") == null) {
+			 admin = this.managers.save(new Manager("admin", "admin",
 							"ROLE_MANAGER"));
-
+		}
+		
 		SecurityContextHolder.getContext().setAuthentication(
 			new UsernamePasswordAuthenticationToken("greg", "doesn't matter",
 				AuthorityUtils.createAuthorityList("ROLE_MANAGER")));
+		
+		/*
+		this.employees.save(new Employee("Frodo", "Baggins", "ring bearer", admin));
+		this.employees.save(new Employee("Bilbo", "Baggins", "burglar", admin));
+		this.employees.save(new Employee("Gandalf", "the Grey", "wizard", admin));
+	    */
 
 		SecurityContextHolder.clearContext();
 	}
