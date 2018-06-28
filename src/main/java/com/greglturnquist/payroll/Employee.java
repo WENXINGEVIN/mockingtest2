@@ -113,7 +113,7 @@ public class Employee {
     protected void onUpdate() {
       updated_at = new Date();
     }
-  }
+  
 	private @Version @JsonIgnore Long version;
 
 	private @ManyToOne Manager manager;
