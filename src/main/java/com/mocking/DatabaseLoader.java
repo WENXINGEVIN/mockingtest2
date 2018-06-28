@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.greglturnquist.payroll;
+package com.mocking;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
@@ -21,6 +21,10 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
+
+import com.mocking.data.EmployeeRepository;
+import com.mocking.data.ManagerRepository;
+import com.mocking.model.Manager;
 
 /**
  * @author Greg Turnquist
@@ -45,20 +49,10 @@ public class DatabaseLoader implements CommandLineRunner {
 
 		Manager greg = this.managers.save(new Manager("admin", "admin",
 							"ROLE_MANAGER"));
-		Manager oliver = this.managers.save(new Manager("admin", "trust",
-							"ROLE_MANAGER"));
 
 		SecurityContextHolder.getContext().setAuthentication(
 			new UsernamePasswordAuthenticationToken("greg", "doesn't matter",
 				AuthorityUtils.createAuthorityList("ROLE_MANAGER")));
-
-
-
-		SecurityContextHolder.getContext().setAuthentication(
-			new UsernamePasswordAuthenticationToken("oliver", "doesn't matter",
-				AuthorityUtils.createAuthorityList("ROLE_MANAGER")));
-
-
 
 		SecurityContextHolder.clearContext();
 	}
