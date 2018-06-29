@@ -91,3 +91,7 @@ Master branch is always the most trustable branch.
 * If you have any issues on not able to install mvn package, please 
   remove the node_modules dir in your project root.
 * cd ~/.m2, and remove everything under it.
+* If you see test file issue, then please do:
+** mvn clean
+** mvn test
+** mvn spring-boot:run

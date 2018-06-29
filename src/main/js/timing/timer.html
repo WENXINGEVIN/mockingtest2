@@ -1,0 +1,70 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+p {
+  text-align: right;
+  font-size: 60px;
+  margin-top:0px;
+  background-color: #87AFC7
+}
+
+.timer {
+	border: 3px solid blue;
+}
+.mocking_content {
+
+}
+
+.question {
+    float: left;
+    width: 50%;
+    display: block
+}
+
+.codeEditorContainer {
+	float:right;
+    /*margin: auto;*/
+    width: auto;
+    border: 3px solid blue;
+    padding: 10px;
+}
+
+</style>
+<script src= "timer.js"></script>
+</head>
+
+<body>
+<div id="timer" class='timer'></div>
+
+<div id='mocking_content' class = 'mocking_content'>
+
+<div id = 'question' class = "question">
+<script>
+var text = "Given two binary trees, write a function to check if they are the same or not. Two binary trees are considered the same if they are structurally identical and the nodes have the same value."
+
+function loadQuestion(question) {
+	document.getElementById("question").innerHTML=question;
+}
+loadQuestion(text);
+</script>
+</div>
+
+<div id='codeEditorContainer' class="codeEditorContainer">
+<select name='language'>
+	<option name='java' value='java'>Java</option>
+	<option name='python' value= 'python'>Python</option>
+</select>
+ 
+<form id= 'submit_code'>
+<textarea id = 'code_editor' rows= 40 cols=80></textarea>
+<input type="button" name= 'runCode' value='Run Code' />
+<input type="button" name= 'submitCode' value='Submit Code' />
+</form>
+<div>
+
+</div> <!-- End of mocking content -->
+
+</body>
+</html>
