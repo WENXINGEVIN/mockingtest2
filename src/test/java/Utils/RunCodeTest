@@ -1,0 +1,30 @@
+package Utils;
+
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.junit4.SpringRunner;
+import util.RunCode;
+import util.SourceCode;
+
+import java.io.FileNotFoundException;
+import java.nio.file.Paths;
+
+@RunWith(SpringRunner.class)
+@SpringBootTest
+public class RunCodeTest {
+
+    public static void main(String[] args) throws FileNotFoundException {
+        // Test above code here.
+        SourceCode sourceCode = null;
+        try {
+            String fileName = "/Users/VINCENTWEN/local_workspace/mockingtest-1/app/HelloWorld.txt";
+            String codeInString = RunCode.readFileAsString(fileName);
+            sourceCode = new SourceCode(Paths.get(fileName).getFileName().toString().replaceFirst("[.][^.]+$", ""), codeInString);
+            RunCode.executeCode(sourceCode);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+}

@@ -1,7 +1,5 @@
 package util;
 
-
-
 public class CodeResult {
 	private String stdout;
 	private String exception;
