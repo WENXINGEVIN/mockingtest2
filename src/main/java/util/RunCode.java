@@ -8,7 +8,49 @@ import java.nio.file.Paths;
 import java.util.UUID;
 
 public class RunCode {
-	public static CodeResult executeCode(SourceCode sourceCode)  {
+	private Path userFolderPath; 
+	private File sourceFilePath;
+	private ProcessBuilder builder; // Use for compiling and running
+	private SourceCode sourceCode ;
+	public RunCode(SourceCode sourceCode) {
+		this.sourceCode = sourceCode;
+		userFolderPath = Paths.get(System.getProperty("user.dir") + "/src/main/java/user/" + getUserId());
+	
+		sourceFilePath = new File(userFolderPath.toString() + "/" + sourceCode.getTitle() + sourceCode.getFileExt());
+        builder = new ProcessBuilder();
+        
+        // Create working directory
+        createWorkingDirectory(userFolderPath);
+        
+        // Set working directory
+        builder.directory(userFolderPath.toFile());
+	}
+	
+	private void createWorkingDirectory(Path path) {
+	     if (!Files.exists(path)) {
+             
+         	try {
+                 Files.createDirectories(path);
+             } catch (IOException e) {
+                 //fail to create directory
+                 e.printStackTrace();
+             }
+         
+         }
+	}
+
+	//TODO should also get a UserID+ UUID
+	private String getUserId() {
+		return UUID.randomUUID().toString();
+	}
+	
+	private void generateSourceFile(String sourceFilePath) throws IOException {
+	      FileWriter fileWriter = new FileWriter(sourceFilePath);
+          fileWriter.write(sourceCode.getCode());
+          fileWriter.close();
+	}
+	
+	public CodeResult executeCode()  {
 		String s = null;
 		
         try {
@@ -16,47 +58,22 @@ public class RunCode {
             System.out.println("User Home: " + System.getProperty("user.home"));
             System.out.println("User Directory: " + System.getProperty("user.dir"));
 
-            Path userFolderPath = Paths.get(System.getProperty("user.dir") + "/src/main/java/user/" + getUserId());
-            if (!Files.exists(userFolderPath)) {
-                try {
-                    Files.createDirectories(userFolderPath);
-                } catch (IOException e) {
-                    //fail to create directory
-                    e.printStackTrace();
-                }
-            }
 
-            ProcessBuilder builder = new ProcessBuilder();
-            builder.directory(userFolderPath.toFile());
-
-            // reconstruct source code to ".java" file
-//            File javaFile = new File("/Users/VINCENTWEN/local_workspace/mockingtest2/src/main/java/user/" + sourceCode.getTitle() + ".java");
-            File javaFile = new File(userFolderPath.toString() + "/" + sourceCode.getTitle() + ".java");
-            FileWriter fileWriter = new FileWriter(javaFile);
-            fileWriter.write(sourceCode.getCode());
-            fileWriter.close();
-
-            /*
-             * Javac does not guarantee .class file will be generated as
-             * our UI code editor will not lint java syntax instantly,
-             * so if syntax error or runtime exception happens, we should reap the exception
-             * and save it to the CodeResult and return.
-             * */
-
-            String compileCommand = "javac " + javaFile.getName();
-            String runCommand = "java " + sourceCode.getTitle();
+            generateSourceFile(sourceFilePath.getAbsolutePath());
+            
+            //TODO check file exists?
+            
+            String compileCommand = "javac " + sourceFilePath;
+            
+            String runCommand = "java " + sourceFilePath.getName();
             String[] commandArray = {"/bin/sh", "-c", compileCommand + ";" + runCommand};
+            
+            // What is this path?
             File userDir = new File("/Users/VINCENTWEN/local_workspace/mockingtest2/src/main/java/user");
 
             builder.command("/bin/sh", "-c", compileCommand + ";" + runCommand);
             Process p = builder.start();
-            // If the filename.class already exists, we need to delete it.
-            /*
-             * String tempdir = system_temp_dir();
-             * String userTempDir = tmepdir<>JavaUUID<>"Uid"; //path
-             * everything is created under this dir.
-             * */
-
+       
             CodeResult codeResult = new CodeResult();
 
             PrintWriter printWriter = new PrintWriter("log.txt");
@@ -108,27 +125,10 @@ public class RunCode {
 	}
 
 
-	public static String getUserId() {
-	    return UUID.randomUUID().toString();
-    }
-
-
-    public static String readFileAsString(String fileName) throws Exception {
+    public static String readFileAsString(String fileName) throws IOException {
         String data = "";
         data = new String(Files.readAllBytes(Paths.get(fileName)));
         return data;
     }
 
-
-    public static void main(String[] args) throws FileNotFoundException {
-        // Test above code here.
-        try {
-            String fileName = "/Users/VINCENTWEN/local_workspace/mockingtest2/src/main/java/user/HelloWorld2.txt";
-            String codeInString = readFileAsString(fileName);
-            SourceCode sourceCode = new SourceCode(Paths.get(fileName).getFileName().toString().replaceFirst("[.][^.]+$", ""), codeInString);
-            executeCode(sourceCode);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
 }

@@ -20,7 +20,7 @@ public class RunCodeTest {
 	    try {
 	        String codeInString = RunCode.readFileAsString(testFileNoCompilationError);
 	        sourceCode = new SourceCode(getFileName(testFileNoCompilationError), codeInString);
-	        new RunCode().executeCode(sourceCode);
+	        new RunCode(sourceCode).executeCode();
 	    } catch (Exception e) {
 	        e.printStackTrace();
 	    }
