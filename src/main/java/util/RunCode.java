@@ -12,10 +12,10 @@ public class RunCode {
 	private File sourceFilePath;
 	private ProcessBuilder builder; // Use for compiling and running
 	private SourceCode sourceCode ;
+	
 	public RunCode(SourceCode sourceCode) {
 		this.sourceCode = sourceCode;
 		userFolderPath = Paths.get(System.getProperty("user.dir") + "/src/main/java/user/" + getUserId());
-	
 		sourceFilePath = new File(userFolderPath.toString() + "/" + sourceCode.getTitle() + sourceCode.getFileExt());
         builder = new ProcessBuilder();
         
@@ -58,8 +58,8 @@ public class RunCode {
             System.out.println("User Home: " + System.getProperty("user.home"));
             System.out.println("User Directory: " + System.getProperty("user.dir"));
 
-
-            generateSourceFile(sourceFilePath.getAbsolutePath());
+            // Generate java file in the hardisk
+            generateSourceFile(sourceCode.getCode());
             
             //TODO check file exists?
             
@@ -67,9 +67,6 @@ public class RunCode {
             
             String runCommand = "java " + sourceFilePath.getName();
             String[] commandArray = {"/bin/sh", "-c", compileCommand + ";" + runCommand};
-            
-            // What is this path?
-            File userDir = new File("/Users/VINCENTWEN/local_workspace/mockingtest2/src/main/java/user");
 
             builder.command("/bin/sh", "-c", compileCommand + ";" + runCommand);
             Process p = builder.start();
