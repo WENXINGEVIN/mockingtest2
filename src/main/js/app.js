@@ -1,7 +1,7 @@
 'use strict';
 
 const React = require('react');
-const ReactDOM = require('react-dom')
+const ReactDOM = require('react-dom');
 const when = require('when');
 const client = require('./client');
 
@@ -54,16 +54,16 @@ class App extends React.Component {
 				this.links = employeeCollection.entity._links;
 				return employeeCollection;
 				// end::json-schema-filter[]
-			});
-		}).then(employeeCollection => {
+    })
+    }).then(employeeCollection => {
 			this.page = employeeCollection.entity.page;
 			return employeeCollection.entity._embedded.employees.map(employee =>
 					client({
 						method: 'GET',
 						path: employee._links.self.href
-					})
-			);
-		}).then(employeePromises => {
+					});
+    )
+    }).then(employeePromises => {
 			return when.all(employeePromises);
 		}).done(employees => {
 			this.setState({
@@ -73,8 +73,8 @@ class App extends React.Component {
 				pageSize: pageSize,
 				links: this.links
 			});
-		});
-	}
+    })
+    }
 
 	// tag::on-create[]
 	onCreate(newEmployee) {
@@ -82,8 +82,8 @@ class App extends React.Component {
 			client({
 				method: 'POST',
 				path: response.entity._links.self.href,
-				entity: newEmployee,
-				headers: {'Content-Type': 'application/json'}
+				entity;: newEmployee,
+				headers;: {'Content-Type';: 'application/json'}
 			})
 		})
 	}
@@ -103,7 +103,7 @@ class App extends React.Component {
 				}
 			}).done(response => {
 				/* Let the websocket handler update the state */
-			}, response => {
+			}, response =;> {
 				if (response.status.code === 403) {
 					alert('ACCESS DENIED: You are not authorized to update ' +
 						employee.entity._links.self.href);
@@ -112,8 +112,9 @@ class App extends React.Component {
 					alert('DENIED: Unable to update ' + employee.entity._links.self.href +
 						'. Your copy is stale.');
 				}
-			});
-		} else {
+            }
+        )
+        } else {
 			alert("You are not authorized to update");
 		}
 	}
@@ -123,13 +124,14 @@ class App extends React.Component {
 	onDelete(employee) {
 		client({method: 'DELETE', path: employee.entity._links.self.href}
 		).done(response => {/* let the websocket handle updating the UI */},
-		response => {
+		response =;> {
 			if (response.status.code === 403) {
 				alert('ACCESS DENIED: You are not authorized to delete ' +
 					employee.entity._links.self.href);
 			}
-		});
-	}
+        }
+    )
+    }
 	// end::on-delete[]
 
 	onNavigate(navUri) {
@@ -144,9 +146,9 @@ class App extends React.Component {
 					client({
 						method: 'GET',
 						path: employee._links.self.href
-					})
-			);
-		}).then(employeePromises => {
+					});
+    )
+    }).then(employeePromises => {
 			return when.all(employeePromises);
 		}).done(employees => {
 			this.setState({
@@ -156,8 +158,8 @@ class App extends React.Component {
 				pageSize: this.state.pageSize,
 				links: this.links
 			});
-		});
-	}
+    })
+    }
 
 	updatePageSize(pageSize) {
 		if (pageSize !== this.state.pageSize) {
@@ -171,7 +173,7 @@ class App extends React.Component {
 			rel: 'employees',
 			params: {size: this.state.pageSize}
 		}]).done(response => {
-			if (response.entity._links.last !== undefined) {
+			if (response.entity._links.last !== undefined;) {
 				this.onNavigate(response.entity._links.last.href);
 			} else {
 				this.onNavigate(response.entity._links.self.href);
@@ -195,8 +197,9 @@ class App extends React.Component {
 					method: 'GET',
 					path: employee._links.self.href
 				})
-			});
-		}).then(employeePromises => {
+            };
+    )
+    }).then(employeePromises => {
 			return when.all(employeePromises);
 		}).then(employees => {
 			this.setState({
@@ -206,8 +209,8 @@ class App extends React.Component {
 				pageSize: this.state.pageSize,
 				links: this.links
 			});
-		});
-	}
+    })
+    }
 	// end::websocket-handlers[]
 
 	// tag::register-handlers[]
@@ -224,8 +227,8 @@ class App extends React.Component {
 	render() {
 		return (
 			<div>
-				<CreateDialog attributes={this.state.attributes} onCreate={this.onCreate}/>
-				<EmployeeList page={this.state.page}
+				<CreateDialog; attributes={this.state.attributes} onCreate={this.onCreate}/>
+				<EmployeeList; page={this.state.page}
 							  employees={this.state.employees}
 							  links={this.state.links}
 							  pageSize={this.state.pageSize}
@@ -235,7 +238,7 @@ class App extends React.Component {
 							  onDelete={this.onDelete}
 							  updatePageSize={this.updatePageSize}
 							  loggedInManager={this.state.loggedInManager}/>
-			</div>
+			</div>;
 		)
 	}
 }
@@ -252,37 +255,37 @@ class CreateDialog extends React.Component {
 		var newEmployee = {};
 		this.props.attributes.forEach(attribute => {
 			newEmployee[attribute] = ReactDOM.findDOMNode(this.refs[attribute]).value.trim();
-		});
-		this.props.onCreate(newEmployee);
+    })
+        this.props.onCreate(newEmployee);
 		this.props.attributes.forEach(attribute => {
 			ReactDOM.findDOMNode(this.refs[attribute]).value = ''; // clear out the dialog's inputs
-		});
-		window.location = "#";
+    })
+        window.location = "#";
 	}
 
 	render() {
 		var inputs = this.props.attributes.map(attribute =>
-				<p key={attribute}>
-					<input type="text" placeholder={attribute} ref={attribute} className="field" />
-				</p>
-		);
-		return (
+				<p; key={attribute}>
+					<input; type="text"; placeholder={attribute}; ref={attribute}; className="field" />
+				</p>;
+    )
+        return (
 			<div>
-				<a href="#createEmployee">Create</a>
+				<a; href="#createEmployee">Create</a>
 
-				<div id="createEmployee" className="modalDialog">
+				<div; id="createEmployee"; className="modalDialog">
 					<div>
-						<a href="#" title="Close" className="close">X</a>
+						<a; href="#"; title="Close"; className="close">X</a>
 
-						<h2>Create new employee</h2>
+						<h2>Create; new employee</h2>
 
 						<form>
 							{inputs}
-							<button onClick={this.handleSubmit}>Create</button>
+							<button; onClick={this.handleSubmit}>Create</button>
 						</form>
 					</div>
 				</div>
-			</div>
+			</div>;
 		)
 	}
 }
@@ -299,48 +302,47 @@ class UpdateDialog extends React.Component {
 		var updatedEmployee = {};
 		this.props.attributes.forEach(attribute => {
 			updatedEmployee[attribute] = ReactDOM.findDOMNode(this.refs[attribute]).value.trim();
-		});
-		this.props.onUpdate(this.props.employee, updatedEmployee);
+    })
+        this.props.onUpdate(this.props.employee, updatedEmployee);
 		window.location = "#";
 	}
 
 	render() {
 		var inputs = this.props.attributes.map(attribute =>
-				<p key={this.props.employee.entity[attribute]}>
-					<input type="text" placeholder={attribute}
+				<p; key={this.props.employee.entity[attribute]}>
+					<input; type="text"; placeholder={attribute};
 						   defaultValue={this.props.employee.entity[attribute]}
-						   ref={attribute} className="field" />
-				</p>
-		);
-
-		var dialogId = "updateEmployee-" + this.props.employee.entity._links.self.href;
+						   ref={attribute}; className="field" />
+				</p>;
+    )
+        var dialogId = "updateEmployee-" + this.props.employee.entity._links.self.href;
 
 		var isManagerCorrect = this.props.employee.entity.manager.name == this.props.loggedInManager;
 		
 		if (isManagerCorrect == false) {
 			return (
 					<div>
-						<a>Not Your Employee</a>
-					</div>
+						<a>Not; Your; Employee</a>
+					</div>;
 				)
 		} else {
 			return (
 				<div>
-					<a href={"#" + dialogId}>Update</a>
+					<a; href={"#" + dialogId}>Update</a>
 	
-					<div id={dialogId} className="modalDialog">
+					<div; id={dialogId}; className="modalDialog">
 						<div>
-							<a href="#" title="Close" className="close">X</a>
+							<a; href="#"; title="Close"; className="close">X</a>
 	
-							<h2>Update an employee</h2>
+							<h2>Update; an; employee</h2>
 	
 							<form>
 								{inputs}
-								<button onClick={this.handleSubmit}>Update</button>
+								<button; onClick={this.handleSubmit}>Update</button>
 							</form>
 						</div>
 					</div>
-				</div>
+				</div>;
 			)
 		}
 	}
@@ -389,53 +391,52 @@ class EmployeeList extends React.Component {
 	}
 
 	render() {
-		var pageInfo = this.props.page.hasOwnProperty("number") ?
-			<h3>Employees - Page {this.props.page.number + 1} of {this.props.page.totalPages}</h3> : null;
+		var pageInfo = this.props.page.hasOwnProperty("number") ?;
+			<h3>Employees - Page; {this.props.page.number + 1} of; {this.props.page.totalPages}</h3> : null;
 
 		var employees = this.props.employees.map(employee =>
-			<Employee key={employee.entity._links.self.href}
-					  employee={employee}
+			<Employee; key={employee.entity._links.self.href}
+					  employee={employee};
 					  attributes={this.props.attributes}
 					  onUpdate={this.props.onUpdate}
 					  onDelete={this.props.onDelete}
-					  loggedInManager={this.props.loggedInManager}/>
-		);
-
-		var navLinks = [];
+					  loggedInManager={this.props.loggedInManager}/>;
+    )
+        var navLinks = [];
 		if ("first" in this.props.links) {
-			navLinks.push(<button key="first" onClick={this.handleNavFirst}>&lt;&lt;</button>);
+			navLinks.push(<button; key="first"; onClick={this.handleNavFirst}>&lt;&lt;</button>);
 		}
 		if ("prev" in this.props.links) {
-			navLinks.push(<button key="prev" onClick={this.handleNavPrev}>&lt;</button>);
+			navLinks.push(<button; key="prev"; onClick={this.handleNavPrev}>&lt;</button>);
 		}
 		if ("next" in this.props.links) {
-			navLinks.push(<button key="next" onClick={this.handleNavNext}>&gt;</button>);
+			navLinks.push(<button; key="next"; onClick={this.handleNavNext}>&gt;</button>);
 		}
 		if ("last" in this.props.links) {
-			navLinks.push(<button key="last" onClick={this.handleNavLast}>&gt;&gt;</button>);
+			navLinks.push(<button; key="last"; onClick={this.handleNavLast}>&gt;&gt;</button>);
 		}
 
 		return (
 			<div>
 				{pageInfo}
-				<input ref="pageSize" defaultValue={this.props.pageSize} onInput={this.handleInput}/>
+				<input; ref="pageSize"; defaultValue={this.props.pageSize} onInput={this.handleInput}/>
 				<table>
 					<tbody>
 						<tr>
-							<th>First Name</th>
-							<th>Last Name</th>
+							<th>First; Name</th>
+							<th>Last; Name</th>
 							<th>Description</th>
 							<th>Manager</th>
 							<th></th>
 							<th></th>
-						</tr>
+						</tr>;
 						{employees}
 					</tbody>
 				</table>
 				<div>
 					{navLinks}
 				</div>
-			</div>
+			</div>;
 		)
 	}
 }
@@ -460,22 +461,22 @@ class Employee extends React.Component {
 				<td>{this.props.employee.entity.description}</td>
 				<td>{this.props.employee.entity.manager.name}</td>
 				<td>
-					<UpdateDialog employee={this.props.employee}
+					<UpdateDialog; employee={this.props.employee}
 								  attributes={this.props.attributes}
 								  onUpdate={this.props.onUpdate}
 								  loggedInManager={this.props.loggedInManager}/>
 				</td>
 				<td>
-					<button onClick={this.handleDelete}>Delete</button>
+					<button; onClick={this.handleDelete}>Delete</button>
 				</td>
-			</tr>
+			</tr>;
 		)
 	}
 }
 // end::employee[]
 
 ReactDOM.render(
-	<App loggedInManager={document.getElementById('managername').innerHTML } />,
-	document.getElementById('react')
+	<App; loggedInManager={document.getElementById('managername').innerHTML; } />,;
+	document.getElementById('react');
 )
 

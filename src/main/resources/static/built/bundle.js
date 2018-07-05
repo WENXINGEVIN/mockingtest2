@@ -913,7 +913,7 @@
 	    } catch (e) {
 	        cachedClearTimeout = defaultClearTimeout;
 	    }
-	} ())
+	} ());
 	function runTimeout(fun) {
 	    if (cachedSetTimeout === setTimeout) {
 	        //normal enviroments in sane situations
@@ -1050,7 +1050,7 @@
 	process.prependListener = noop;
 	process.prependOnceListener = noop;
 	
-	process.listeners = function (name) { return [] }
+	process.listeners = function (name) { return [] };
 	
 	process.binding = function (name) {
 	    throw new Error('process.binding is not supported');
@@ -1096,7 +1096,7 @@
 			// Detect buggy property enumeration order in older V8 versions.
 	
 			// https://bugs.chromium.org/p/v8/issues/detail?id=4118
-			var test1 = new String('abc');  // eslint-disable-line no-new-wrappers
+			var test1 = String('abc');  // eslint-disable-line no-new-wrappers
 			test1[5] = 'de';
 			if (Object.getOwnPropertyNames(test1)[0] === '5') {
 				return false;
@@ -28711,7 +28711,7 @@
 	  if (!useColors) return;
 	
 	  var c = 'color: ' + this.color;
-	  args.splice(1, 0, c, 'color: inherit')
+	  args.splice(1, 0, c, 'color: inherit');
 	
 	  // the final "%c" is somewhat tricky, because there could be other
 	  // arguments passed either before or after the %c, so we need to
@@ -29182,7 +29182,7 @@
 	if (typeof Object.create === 'function') {
 	  // implementation from standard node.js 'util' module
 	  module.exports = function inherits(ctor, superCtor) {
-	    ctor.super_ = superCtor
+	    ctor.super_ = superCtor;
 	    ctor.prototype = Object.create(superCtor.prototype, {
 	      constructor: {
 	        value: ctor,
@@ -29195,10 +29195,10 @@
 	} else {
 	  // old school shim for old browsers
 	  module.exports = function inherits(ctor, superCtor) {
-	    ctor.super_ = superCtor
-	    var TempCtor = function () {}
-	    TempCtor.prototype = superCtor.prototype
-	    ctor.prototype = new TempCtor()
+	    ctor.super_ = superCtor;
+	    var TempCtor = function () {};
+	    TempCtor.prototype = superCtor.prototype;
+	    ctor.prototype = new TempCtor();
 	    ctor.prototype.constructor = ctor
 	  }
 	}
@@ -29307,7 +29307,7 @@
 	    } else {
 	      delete this._listeners[eventType];
 	    }
-	    return;
+
 	  }
 	};
 	
@@ -30473,8 +30473,8 @@
 /***/ (function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_RESULT__;/* WEBPACK VAR INJECTION */(function(module, global) {/*! JSON v3.3.2 | http://bestiejs.github.io/json3 | Copyright 2012-2014, Kit Cambridge | http://kit.mit-license.org */
-	;(function () {
-	  // Detect the `define` function exposed by asynchronous module loaders. The
+            (function () {
+                // Detect the `define` function exposed by asynchronous module loaders. The
 	  // strict `define` check is necessary for compatibility with `r.js`.
 	  var isLoader = "function" === "function" && __webpack_require__(270);
 	
@@ -30570,8 +30570,8 @@
 	                stringify(0) === "0" &&
 	                // FF 3.1b1, b2, and JSON 2 serialize wrapped primitives as object
 	                // literals.
-	                stringify(new Number()) === "0" &&
-	                stringify(new String()) == '""' &&
+	                stringify(Number()) === "0" &&
+	                stringify(String()) == '""' &&
 	                // FF 3.1b1, 2 throw an error if the value is `null`, `undefined`, or
 	                // does not define a canonical JSON representation (this applies to
 	                // objects with `toJSON` properties as well, *unless* they are nested
