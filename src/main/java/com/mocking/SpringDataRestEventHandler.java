@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.greglturnquist.payroll;
+package com.mocking;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.rest.core.annotation.HandleBeforeCreate;
@@ -21,6 +21,10 @@ import org.springframework.data.rest.core.annotation.HandleBeforeSave;
 import org.springframework.data.rest.core.annotation.RepositoryEventHandler;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
+
+import com.mocking.data.ManagerRepository;
+import com.mocking.model.Employee;
+import com.mocking.model.Manager;
 
 /**
  * @author Greg Turnquist
@@ -40,7 +44,6 @@ public class SpringDataRestEventHandler {
 	@HandleBeforeCreate
 	@HandleBeforeSave
 	public void applyUserInformationUsingSecurityContext(Employee employee) {
-
 		String name = SecurityContextHolder.getContext().getAuthentication().getName();
 		Manager manager = this.managerRepository.findByName(name);
 		if (manager == null) {

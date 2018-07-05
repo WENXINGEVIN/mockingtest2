@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.greglturnquist.payroll;
+package com.mocking;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
@@ -21,6 +21,11 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
+
+import com.mocking.data.EmployeeRepository;
+import com.mocking.data.ManagerRepository;
+import com.mocking.model.Employee;
+import com.mocking.model.Manager;
 
 /**
  * @author Greg Turnquist
@@ -41,28 +46,22 @@ public class DatabaseLoader implements CommandLineRunner {
 	}
 
 	@Override
-	public void run(String... strings) {
-
-		Manager greg = this.managers.save(new Manager("greg", "turnquist",
+	public void run(String... strings) throws Exception {
+		Manager admin = null;
+		if (this.managers.findByName("admin") == null) {
+			 admin = this.managers.save(new Manager("admin", "admin",
 							"ROLE_MANAGER"));
-		Manager oliver = this.managers.save(new Manager("oliver", "gierke",
-							"ROLE_MANAGER"));
-
+		}
+		
 		SecurityContextHolder.getContext().setAuthentication(
 			new UsernamePasswordAuthenticationToken("greg", "doesn't matter",
 				AuthorityUtils.createAuthorityList("ROLE_MANAGER")));
-
-		this.employees.save(new Employee("Frodo", "Baggins", "ring bearer", greg));
-		this.employees.save(new Employee("Bilbo", "Baggins", "burglar", greg));
-		this.employees.save(new Employee("Gandalf", "the Grey", "wizard", greg));
-
-		SecurityContextHolder.getContext().setAuthentication(
-			new UsernamePasswordAuthenticationToken("oliver", "doesn't matter",
-				AuthorityUtils.createAuthorityList("ROLE_MANAGER")));
-
-		this.employees.save(new Employee("Samwise", "Gamgee", "gardener", oliver));
-		this.employees.save(new Employee("Merry", "Brandybuck", "pony rider", oliver));
-		this.employees.save(new Employee("Peregrin", "Took", "pipe smoker", oliver));
+		
+		/*
+		this.employees.save(new Employee("Frodo", "Baggins", "ring bearer", admin));
+		this.employees.save(new Employee("Bilbo", "Baggins", "burglar", admin));
+		this.employees.save(new Employee("Gandalf", "the Grey", "wizard", admin));
+	    */
 
 		SecurityContextHolder.clearContext();
 	}

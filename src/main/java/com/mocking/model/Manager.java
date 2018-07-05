@@ -13,11 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.greglturnquist.payroll;
+package com.mocking.model;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+
+import javax.persistence.*;
 
 import lombok.Data;
 import lombok.ToString;
@@ -33,6 +32,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 // tag::code[]
 @Data
 @ToString(exclude = "password")
+@Table(name = "manager")
 @Entity
 public class Manager {
 
@@ -70,7 +70,7 @@ public class Manager {
 		return password;
 	}
 
-	protected Manager() {}
+	public Manager() {}
 
 	public Manager(String name, String password, String... roles) {
 
