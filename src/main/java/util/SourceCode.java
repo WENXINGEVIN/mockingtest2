@@ -29,7 +29,7 @@ public class SourceCode {
 		super();
 		this.title = title;
 		this.code = code;
-		this.fileExt = "." + fileExt;
+		this.fileExt = fileExt;
 	}
 
 	/**

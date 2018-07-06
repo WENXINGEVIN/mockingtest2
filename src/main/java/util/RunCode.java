@@ -15,7 +15,7 @@ public class RunCode {
 	public RunCode(SourceCode sourceCode) {
 		this.sourceCode = sourceCode;
 		userFolderPath = Paths.get(System.getProperty("user.dir") + "/src/main/resources/user/" + getUserId());
-		sourceFilePath = userFolderPath.toString() + "/" + sourceCode.getTitle() + sourceCode.getFileExt();
+		sourceFilePath = userFolderPath.toString() + "/" + sourceCode.getTitle() + "." + sourceCode.getFileExt();
         builder = new ProcessBuilder();
 
         // Create working directory
@@ -66,11 +66,14 @@ public class RunCode {
                 System.out.println("source file creation failed");
             }
 
-            String compileCommand = "javac " + sourceCode.getTitle() + sourceCode.getFileExt();
-            String runCommand = "java " + sourceCode.getTitle();
-            String[] commandArray = {"/bin/sh", "-c", compileCommand + ";" + runCommand};
+            if(sourceCode.getFileExt().equals("java")) {
+                String compileCommand = "javac " + sourceCode.getTitle() + "." + sourceCode.getFileExt();
+                String runCommand = "java " + sourceCode.getTitle();
+                builder.command("/bin/sh", "-c", compileCommand + ";" + runCommand);
+            } else {
+                builder.command("/bin/sh", "-c", "python " + sourceFilePath.toString());
+            }
 
-            builder.command("/bin/sh", "-c", compileCommand + ";" + runCommand);
             Process p = builder.start();
        
             CodeResult codeResult = new CodeResult();

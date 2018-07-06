@@ -1,7 +1,7 @@
-public class HelloWorld {
+public class HelloWorld2 {
 
 
-static void func() {
+static int func() {
 	return 1/0;
 }
 
