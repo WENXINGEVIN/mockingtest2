@@ -25,9 +25,7 @@ nbdist/
 
 ### react reduc ###
 node_modules/
-src/main/resources/static/built/bundle.js
-src/main/resources/static/built/bundle.js.map
-
+src/main/resources/static/built/*
 ### others ###
 log.txt
 /src/main/resources/user/*
